@@ -1,0 +1,134 @@
+openapi: 3.0.0
+info:
+  title: Expense Report API
+  version: 1.0.0
+paths:
+  /api/expense-reports:
+    get:
+      summary: List Expense Reports
+      description: Retrieve a list of expense reports.
+      responses:
+        "200":
+          description: Successful operation
+      tags:
+        - Expense Reports
+    post:
+      summary: Create Expense Report
+      description: Create a new expense report.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExpenseReport"
+      responses:
+        "201":
+          description: Expense report created successfully
+      tags:
+        - Expense Reports
+
+  /api/expense-reports/{id}:
+    get:
+      summary: Get Expense Report by ID
+      description: Retrieve an expense report by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+        "404":
+          description: Expense report not found
+      tags:
+        - Expense Reports
+
+    patch:
+      summary: Update Expense Report
+      description: Update an existing expense report by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          requestBody:
+            required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpenseReport"
+      responses:
+        "200":
+          description: Expense report updated successfully
+        "404":
+          description: Expense report not found
+      tags:
+        - Expense Reports
+
+    delete:
+      summary: Delete Expense Report
+      description: Delete an expense report by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Expense report deleted successfully
+        "404":
+          description: Expense report not found
+      tags:
+        - Expense Reports
+
+  /api/expense-reports-export:
+    get:
+      summary: Export Expense Reports to Excel
+      description: Export expense reports to an Excel file with filters.
+      parameters:
+        - name: startDate
+          in: query
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          schema:
+            type: string
+        - name: supplier
+          in: query
+          schema:
+            type: string
+        - name: minValue
+          in: query
+          schema:
+            type: number
+        - name: maxValue
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Excel file generated successfully
+      tags:
+        - Expense Reports
+
+components:
+  schemas:
+    ExpenseReport:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        supplier:
+          type: string
+        reason:
+          type: string
+        value:
+          type: number
+        proof:
+          type: string

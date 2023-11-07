@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model ExpenseReport {
+  id       String @id @default(uuid())
+  date     String
+  supplier String
+  reason   String
+  value    Float
+  proof    String
+  status   String @default(dbgenerated("not_billed"))
+}
